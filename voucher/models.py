@@ -1,15 +1,24 @@
 from django.db import models
 from djmoney.models.fields import MoneyField
-
-
+from django.template.defaultfilters import slugify
+from django.urls import reverse
 
 
 
 class MinistryOrAgency(models.Model):
-    name = models.CharField(max_length=200)
+    mda = models.CharField(max_length=255)
+    slug = models.SlugField(null=False, unique=True, max_length=255)
+
+    def get_absolute_url(self):
+        return reverse("article_detail", kwargs={"slug": self.slug})
+
+    def save(self, *args, **kwargs):  # new
+        if not self.slug:
+            self.slug = slugify(self.category)
+        return super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.name
+        return self.mda
 
 
 class Voucher(models.Model):

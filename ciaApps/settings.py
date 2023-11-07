@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'djmoney',
     'voucher',
+    'import_export',
 ]
 
 MIDDLEWARE = [
